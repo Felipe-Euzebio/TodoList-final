@@ -15,10 +15,7 @@ class TodoListController extends Controller
     public function index()
     {
         try {
-            // $tasks = TodoList::all();
-            // return response()->json($tasks, 200);
             $tasks = TodoList::all();
-            //$data['todolist'] = TodoList::orderBy('id','desc')->paginate(count($tasks));
             return response()->json($tasks, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

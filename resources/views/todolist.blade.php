@@ -33,28 +33,11 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
+                            <!-- card-header -->
                             <div class="card-header">
                                 <h2>Lista de Tarefas</h2>
                             </div>
                             <!-- /.card-header -->
-
-                            @if ($message = Session::get('success'))
-                            <div class="alert alert-success">
-                                <p>{{ $message }}</p>
-                            </div>
-                            @endif
-
-                            @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            @endif
-
                             <div class="card-body">
                                 <table id="tasks-table" class="table table-bordered table-striped table-sm">
                                     <thead>
@@ -67,7 +50,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- To Be filled by AJAX -->
+                                        <!-- To Be filled by AJAX script -->
                                     </tbody>
                                     <tfoot>
                                         <tr>
@@ -107,12 +90,12 @@
                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                             <div class="form-group">
                                                 <strong>Prazo de entrega:</strong>
-                                                <input type="date" name="deadline" id="deadlineInput" class="form-control" placeholder="">
+                                                <input type="datetime-local" name="deadline" id="deadlineInput" class="form-control" placeholder="">
                                             </div>
                                         </div>
                                     </div>
                                 </form>
-                                <button class="btn btn-primary ml-2 mt-3" onclick="saveTasks()">Salvar</button>
+                                <button class="btn btn-primary mt-3" onclick="saveTasks()">Salvar</button>
                             </div>
                             <!-- End of ADD NEW TASK Section -->
                             <!-- /.card-body -->
@@ -139,7 +122,8 @@
                                             <div class="form-group">
                                                 <input type="hidden" id="task-id">
                                                 <label for="task-deadline" class="col-form-label">Prazo de Entrega:</label>
-                                                <input type="text" class="form-control" id="task-deadline">
+                                                <input type="text" class="form-control" id="task-deadline" onfocus="(this.type='datetime-local')" 
+                                                onblur="(this.type='text')">
                                             </div>
                                         </form>
                                     </div>
@@ -193,6 +177,9 @@
     <script>
         $(function() {
             $("#tasks-table").DataTable({
+                "searching": false,
+                "paging": false,
+                "info": false,
                 "ordering": false,
                 "responsive": true,
                 "lengthChange": false,
@@ -255,8 +242,8 @@
                                 cell2.innerHTML = data[i].title;
                                 cell3.innerHTML = data[i].description;
                                 cell4.innerHTML = data[i].deadline;
-                                cell5.innerHTML = `<button class="btn btn-primary" onclick="openEditModal(${data[i].id},'${data[i].description}')"><i class="fa fa-edit"></i></button>
-                                                   <button class="btn btn-danger" onclick="deleteTask(' + data[i].id + ')"><i class="fa fa-trash"></i></button>`;
+                                cell5.innerHTML = `<button class="btn btn-primary" onclick="openEditModal(${data[i].id},'${data[i].title}','${data[i].description}','${data[i].deadline}')"><i class="fa fa-edit"></i></button>
+                                                   <button class="btn btn-danger" onclick="deleteTask(${data[i].id})"><i class="fa fa-trash"></i></button>`;
                             } catch (error) {
                                 console.log(error);
                             }
@@ -296,6 +283,9 @@
                     alert(`Error ${error}`);
                 }
             })
+            document.getElementById('titleInput').value = "";
+            document.getElementById('descriptionInput').value = "";
+            document.getElementById('deadlineInput').value = "";
         }
 
         function deleteTask(id) {
