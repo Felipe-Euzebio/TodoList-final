@@ -92,10 +92,10 @@
                                                 <strong>Prazo de entrega:</strong>
                                                 <input type="datetime-local" name="deadline" id="deadlineInput" class="form-control" placeholder="">
                                             </div>
+                                            <button class="btn btn-primary mt-3" onclick="saveTasks()">Salvar</button>
                                         </div>
                                     </div>
                                 </form>
-                                <button class="btn btn-primary mt-3" onclick="saveTasks()">Salvar</button>
                             </div>
                             <!-- End of ADD NEW TASK Section -->
                             <!-- /.card-body -->
@@ -122,8 +122,7 @@
                                             <div class="form-group">
                                                 <input type="hidden" id="task-id">
                                                 <label for="task-deadline" class="col-form-label">Prazo de Entrega:</label>
-                                                <input type="text" class="form-control" id="task-deadline" onfocus="(this.type='datetime-local')" 
-                                                onblur="(this.type='text')">
+                                                <input type="text" class="form-control" id="task-deadline" onfocus="(this.type='datetime-local')" onblur="(this.type='text')">
                                             </div>
                                         </form>
                                     </div>
